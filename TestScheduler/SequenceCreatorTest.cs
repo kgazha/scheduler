@@ -18,6 +18,14 @@ namespace TestScheduler
             {
                 Assert.Equal(expected[i], result[i]);
             }
+
+            sequenceCreator.Expression = "*/2";
+            result = sequenceCreator.GenerateSequence(1, 7);
+            expected = new List<int>() { 1, 3, 5, 7 };
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.Equal(expected[i], result[i]);
+            }
         }
     }
 }

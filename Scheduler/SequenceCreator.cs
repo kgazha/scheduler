@@ -7,19 +7,19 @@ namespace Scheduler
 {
     public class SequenceCreator
     {
-        string expression;
+        public string Expression { get; set; }
         List<int> sequence;
 
         public SequenceCreator(string expression)
         {
-            this.expression = expression;
+            Expression = expression;
         }
 
         public List<int> GenerateSequence(int minValue, int maxValue)
         {
             sequence = new List<int>();
 
-            foreach (var item in expression.Split(','))
+            foreach (var item in Expression.Split(','))
             {
                 int step = 1;
                 if (item.Contains('/'))
@@ -60,9 +60,6 @@ namespace Scheduler
                 x += step;
             }
             return sequence;
-
         }
-
-
     }
 }
