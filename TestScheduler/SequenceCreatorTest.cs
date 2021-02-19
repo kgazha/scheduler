@@ -9,11 +9,15 @@ namespace TestScheduler
     public class SequenceCreatorTest
     {
         [Fact]
-        public void SimpleTest()
+        public void GenerateSequenceTest()
         {
-            //IDateTimeParser parser = new ScheduleParser();
-            //parser.Parse("2000-2010,2014,2015.02,3-9.16");
-            //SequenceCreator sequenceCreator = new SequenceCreator(parser);
+            SequenceCreator sequenceCreator = new SequenceCreator("02,3-14/3");
+            var result = sequenceCreator.GenerateSequence(0, 30);
+            var expected = new List<int>() { 2, 3, 6, 9, 12 };
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.Equal(expected[i], result[i]);
+            }
         }
     }
 }
