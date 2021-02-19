@@ -11,9 +11,9 @@ namespace TestScheduler
         [Fact]
         public void SimpleTest()
         {
-            IDateTimeParser parser = new ScheduleParser();
-            parser.Parse("2000-2010,2014,2015.02,3-9.16");
-            SequenceCreator sequenceCreator = new SequenceCreator(parser);
+            //IDateTimeParser parser = new ScheduleParser();
+            //parser.Parse("2000-2010,2014,2015.02,3-9.16");
+            //SequenceCreator sequenceCreator = new SequenceCreator(parser);
         }
     }
 }

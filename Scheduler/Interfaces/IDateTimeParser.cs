@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Scheduler
+namespace Scheduler.Interfaces
 {
     public interface IDateTimeParser
     {
@@ -14,6 +14,6 @@ namespace Scheduler
         string Minute { get; set; }
         string Second { get; set; }
         string Milisecond { get; set; }
-        void Parse(string data);
+        void Parse(string input);
     }
 }
