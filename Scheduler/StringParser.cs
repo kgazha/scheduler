@@ -6,8 +6,6 @@ namespace Scheduler
 {
     public class StringParser : IParser
     {
- 
-
         public string Parse(string input, string pattern, int groupIndex)
         {
             string result = "";

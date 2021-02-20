@@ -24,8 +24,8 @@ namespace Scheduler
 
         // Шаблон для даты со списками и диапазонами. Пример: 2000-2010,2014,2015.02-3.16
         string datePattern = @"(((\d{4})?\*?,?-?)*)\.(((\d{1,2})?\*?,?-?)*)\.(((\d{1,2})?\*?,?-?)*)";
-        string dayOfWeekPattern = @"\s((\d{1},?-?)+)\s";
-        string timePattern = @"(\S+):(\S+):(((\d{1,2})?\*?,?-?\/?)*)\.?(\S+)?";
+        string dayOfWeekPattern = @"\s(((\d{1})?\*?,?-?)+)\s";
+        string timePattern = @"(\S+):(\S+):(((\d{1,2})?\*?,?-?\/?)*)\.?(\S+)?\*?";
 
         private void ParseDate(string scheduleString)
         {
@@ -44,7 +44,7 @@ namespace Scheduler
             Hour = parser.Parse(scheduleString, timePattern, 1);
             Minute = parser.Parse(scheduleString, timePattern, 2);
             Second = parser.Parse(scheduleString, timePattern, 3);
-            Milisecond = parser.Parse(scheduleString, timePattern, 7);
+            Milisecond = parser.Parse(scheduleString, timePattern, 6);
         }
 
         public void Parse(string scheduleString)
