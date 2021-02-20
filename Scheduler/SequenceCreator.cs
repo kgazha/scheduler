@@ -5,21 +5,13 @@ using System.Text;
 
 namespace Scheduler
 {
-    public class SequenceCreator
+    public class SequenceCreator : ISequence
     {
-        public string Expression { get; set; }
-        List<int> sequence;
-
-        public SequenceCreator(string expression)
+        public List<int> GenerateSequence(string expression, int minValue, int maxValue)
         {
-            Expression = expression;
-        }
+            List<int> sequence = new List<int>();
 
-        public List<int> GenerateSequence(int minValue, int maxValue)
-        {
-            sequence = new List<int>();
-
-            foreach (var item in Expression.Split(','))
+            foreach (var item in expression.Split(','))
             {
                 int step = 1;
                 if (item.Contains('/'))

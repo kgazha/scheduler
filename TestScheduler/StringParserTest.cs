@@ -1,6 +1,5 @@
 using Scheduler;
 using Scheduler.Interfaces;
-using System;
 using Xunit;
 
 namespace TestScheduler
