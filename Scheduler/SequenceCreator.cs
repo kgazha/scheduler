@@ -31,12 +31,15 @@ namespace Scheduler
                         startValue += step;
                     }
                 }
-                else
+                else if (item.Contains("32"))
+                {
+                    sequence.Add(maxValue);
+                }
+                else if (item != "")
                 {
                     sequence.Add(Convert.ToInt32(item));
                 }
             }
-
             return sequence;
         }
 

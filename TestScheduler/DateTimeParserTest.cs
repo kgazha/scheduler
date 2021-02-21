@@ -22,7 +22,7 @@ namespace TestScheduler
             Assert.Equal("*", dateTimeParser.Hour);
             Assert.Equal("*", dateTimeParser.Minute);
             Assert.Equal("*", dateTimeParser.Second);
-            Assert.Equal("*", dateTimeParser.Milisecond);
+            Assert.Equal("*", dateTimeParser.Millisecond);
         }
     }
 }

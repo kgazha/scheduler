@@ -14,7 +14,7 @@ namespace Scheduler
         public string Hour { get; set; }
         public string Minute { get; set; }
         public string Second { get; set; }
-        public string Milisecond { get; set; }
+        public string Millisecond { get; set; }
         IParser parser;
 
         public DateTimeParser(IParser parser)
@@ -44,7 +44,7 @@ namespace Scheduler
             Hour = parser.Parse(scheduleString, timePattern, 1);
             Minute = parser.Parse(scheduleString, timePattern, 2);
             Second = parser.Parse(scheduleString, timePattern, 3);
-            Milisecond = parser.Parse(scheduleString, timePattern, 6);
+            Millisecond = parser.Parse(scheduleString, timePattern, 6);
         }
 
         public void Parse(string scheduleString)
@@ -56,7 +56,7 @@ namespace Scheduler
             Hour = "";
             Minute = "";
             Second = "";
-            Milisecond = "";
+            Millisecond = "";
             ParseDate(scheduleString);
             ParseDayOfWeek(scheduleString);
             ParseTime(scheduleString);

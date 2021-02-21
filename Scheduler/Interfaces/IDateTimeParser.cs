@@ -13,7 +13,7 @@ namespace Scheduler.Interfaces
         string Hour { get; set; }
         string Minute { get; set; }
         string Second { get; set; }
-        string Milisecond { get; set; }
+        string Millisecond { get; set; }
         void Parse(string input);
     }
 }

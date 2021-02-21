@@ -8,6 +8,7 @@ namespace TestScheduler
 {
     public class ScheduleTest
     {
+
         [Fact]
         public void NearestEventTest()
         {
@@ -37,6 +38,26 @@ namespace TestScheduler
             var schedule = new Schedule("2019-2020.1,2,09-12.20,24-27");
             var result = schedule.NearestEvent(new DateTime(year: 2021, month: 4, day: 20));
             var expected = new DateTime(year: 2020, month: 12, day: 27);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ClosestDateTimeTest()
+        {
+            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 944));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 944);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void DayOfWeekTest()
+        {
+            var schedule = new Schedule("2021.1,2,07-12.21,24-27 2-4 ");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 4, day: 20));
+            var expected = new DateTime(year: 2021, month: 2, day: 25);
             Assert.Equal(expected, result);
         }
     }
