@@ -70,9 +70,9 @@ namespace TestScheduler
         {
             var date = new DateTime(year: 2021, month: 7, day: 20,
                 hour: 23, minute: 59, second: 59, millisecond: 999);
-            var schedule = new Schedule("2021.1,2,07-12.20,21,24-27 2-4 *:*:*.*");
+            var schedule = new Schedule("2021.1,2,07-12.20,21,24-27 2-4 *:05:*.*");
             var result = schedule.NextEvent(date);
-            var expected = new DateTime(year: 2021, month: 7, day: 21);
+            var expected = new DateTime(year: 2021, month: 7, day: 21, hour: 0, minute: 5, second: 0);
             Assert.Equal(expected, result);
         }
 
@@ -84,6 +84,39 @@ namespace TestScheduler
             var result = schedule.PrevEvent(date);
             var expected = new DateTime(year: 2021, month: 2, day: 25,
                 hour: 23, minute: 59, second: 59, millisecond: 999);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void T1()
+        {
+            var schedule = new Schedule("2019-2021.1,2,06-12.20,24-27 2-6 3-10:01-55:23.10-945");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 934));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 934);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void T2()
+        {
+            var schedule = new Schedule("2021.1,2,04-12.20,24-27 3-10:01-55:23.10-945");
+            var result = schedule.NextEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 933));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 934);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void T3()
+        {
+            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 932));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 932);
             Assert.Equal(expected, result);
         }
     }

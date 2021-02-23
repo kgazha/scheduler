@@ -120,16 +120,35 @@ namespace Scheduler
                             {
                                 result = date;
                             }
-                            else if (date == t1.Date && findEqual)
+                            else if (date == t1.Date)
                             {
-                                result = date;
-                                findNext = false;
+                                if (findNext)
+                                { 
+                                    result = date;
+                                }
+                                if (findEqual)
+                                {
+                                    result = date;
+                                    findNext = false;
+                                }
                             }
                             else if (date > t1.Date)
                             {
                                 if (findNext)
                                 {
-                                    result = date;
+                                    if (Hours.Count == 0)
+                                    {
+                                        return date;
+                                    }
+                                    result = GetNearestDateTime(t1, result, findEqual, findNext);
+                                    if (result < t1)
+                                    {
+                                        result = date;
+                                    }
+                                    else
+                                    {
+                                        return result;
+                                    }
                                 }
                                 findNext = false;
                             }
@@ -179,7 +198,6 @@ namespace Scheduler
                     }
                 }
             }
-
             return currentResult;
         }
 
