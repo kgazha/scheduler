@@ -119,5 +119,16 @@ namespace TestScheduler
                 hour: 3, minute: 4, second: 23, millisecond: 932);
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void T4()
+        {
+            var schedule = new Schedule();
+            var result = schedule.PrevEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 0, minute: 0, second: 0, millisecond: 1));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 0, minute: 0, second: 0, millisecond: 0);
+            Assert.Equal(expected, result);
+        }
     }
 }
