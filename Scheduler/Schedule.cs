@@ -102,7 +102,7 @@ namespace Scheduler
                     {
 
                         DateTime date = new DateTime(year: year, month: month, day: day);
-
+                        var diff = Math.Abs((date - t1).TotalDays);
                         if (DaysOfWeek.Count != 0)
                         {
                             if (!DaysOfWeek.Contains((int)date.DayOfWeek))
@@ -110,10 +110,29 @@ namespace Scheduler
                                 continue;
                             }
                         }
-                        if (Math.Abs((date - t1).TotalDays) < closestDate)
+                        if (diff < closestDate || findNext)
                         {
-                            closestDate = Math.Abs((date - t1).TotalDays);
-                            result = date;
+                            if (diff < closestDate)
+                            {
+                                closestDate = diff;
+                            }
+                            if (date < t1.Date)
+                            {
+                                result = date;
+                            }
+                            else if (date == t1.Date && findEqual)
+                            {
+                                result = date;
+                                findNext = false;
+                            }
+                            else if (date > t1.Date)
+                            {
+                                if (findNext)
+                                {
+                                    result = date;
+                                }
+                                findNext = false;
+                            }
                         }
                         else
                         {
@@ -160,6 +179,7 @@ namespace Scheduler
                     }
                 }
             }
+
             return currentResult;
         }
 

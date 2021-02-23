@@ -19,14 +19,10 @@ namespace TestScheduler
             result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20));
             expected = new DateTime(year: 2020, month: 12, day: 20);
             Assert.Equal(expected, result);
-        }
 
-        [Fact]
-        public void ClosestNextDateTest()
-        {
-            var schedule = new Schedule("2019-2021.10-12.20,24-27");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 4, day: 20));
-            var expected = new DateTime(year: 2021, month: 10, day: 20);
+            schedule = new Schedule("2019-2021.10-12.20,24-27");
+            result = schedule.NearestEvent(new DateTime(year: 2021, month: 4, day: 20));
+            expected = new DateTime(year: 2021, month: 10, day: 20);
             Assert.Equal(expected, result);
         }
 
@@ -40,53 +36,54 @@ namespace TestScheduler
         }
 
         [Fact]
-        public void ClosestDateTimeTest()
+        public void NextEventTest()
         {
-            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 944));
-            var expected = new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 944);
+            DateTime date = new DateTime(year: 2021, month: 4, day: 20);
+            var schedule = new Schedule("2019-2021.03-12.20,24-27");
+            var result = schedule.NextEvent(date);
+            var expected = new DateTime(year: 2021, month: 4, day: 24);
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void T1()
+        public void NearestPrevTest()
         {
-            var schedule = new Schedule("2019-2021.1,2,06-12.20,24-27 2-6 3-10:01-55:23.10-945");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 934));
-            var expected = new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 934);
+            DateTime date = new DateTime(year: 2021, month: 4, day: 20);
+            var schedule = new Schedule("2019-2021.03-12.20,24-27");
+            var result = schedule.NearestPrevEvent(date);
+            var expected = new DateTime(year: 2021, month: 4, day: 20);
             Assert.Equal(expected, result);
         }
+        
         [Fact]
-        public void T2()
+        public void PrevEventTest()
         {
-            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 933));
-            var expected = new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 933);
-            Assert.Equal(expected, result);
-        }
-        [Fact]
-        public void T3()
-        {
-            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 932));
-            var expected = new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 932);
+            DateTime date = new DateTime(year: 2021, month: 4, day: 20);
+            var schedule = new Schedule("2019-2021.03-12.20,24-27 4-6 ");
+            var result = schedule.PrevEvent(date);
+            var expected = new DateTime(year: 2021, month: 3, day: 27);
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void DayOfWeekTest()
+        public void NextEventUpperBoundTest()
         {
-            var schedule = new Schedule("2021.1,2,07-12.21,24-27 2-4 ");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 4, day: 20));
-            var expected = new DateTime(year: 2021, month: 2, day: 25);
+            var date = new DateTime(year: 2021, month: 7, day: 20,
+                hour: 23, minute: 59, second: 59, millisecond: 999);
+            var schedule = new Schedule("2021.1,2,07-12.20,21,24-27 2-4 *:*:*.*");
+            var result = schedule.NextEvent(date);
+            var expected = new DateTime(year: 2021, month: 7, day: 21);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void PrevEventUpperBoundTest()
+        {
+            DateTime date = new DateTime(year: 2021, month: 7, day: 20);
+            var schedule = new Schedule("2021.1,2,07-12.20,21,24-27 2-4 *:*:*.*");
+            var result = schedule.PrevEvent(date);
+            var expected = new DateTime(year: 2021, month: 2, day: 25,
+                hour: 23, minute: 59, second: 59, millisecond: 999);
             Assert.Equal(expected, result);
         }
     }
