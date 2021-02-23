@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Scheduler.Interfaces
+﻿namespace Scheduler.Interfaces
 {
     public interface IDateTimeParser
     {

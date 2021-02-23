@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Scheduler;
+﻿using Scheduler;
 using Scheduler.Interfaces;
+using Xunit;
 
 namespace TestScheduler
 {

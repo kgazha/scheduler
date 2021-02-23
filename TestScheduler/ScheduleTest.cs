@@ -1,7 +1,5 @@
 ﻿using Scheduler;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace TestScheduler
@@ -49,6 +47,37 @@ namespace TestScheduler
                 hour: 3, minute: 4, second: 23, millisecond: 944));
             var expected = new DateTime(year: 2021, month: 2, day: 20,
                 hour: 3, minute: 4, second: 23, millisecond: 944);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void T1()
+        {
+            var schedule = new Schedule("2019-2021.1,2,06-12.20,24-27 2-6 3-10:01-55:23.10-945");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 934));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 934);
+            Assert.Equal(expected, result);
+        }
+        [Fact]
+        public void T2()
+        {
+            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 933));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 933);
+            Assert.Equal(expected, result);
+        }
+        [Fact]
+        public void T3()
+        {
+            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
+            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 932));
+            var expected = new DateTime(year: 2021, month: 2, day: 20,
+                hour: 3, minute: 4, second: 23, millisecond: 932);
             Assert.Equal(expected, result);
         }
 

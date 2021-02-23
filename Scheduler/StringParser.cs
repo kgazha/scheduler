@@ -1,5 +1,4 @@
 ﻿using Scheduler.Interfaces;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Scheduler
