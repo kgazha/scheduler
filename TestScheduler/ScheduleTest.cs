@@ -94,39 +94,6 @@ namespace TestScheduler
         }
 
         [Fact]
-        public void T1()
-        {
-            var schedule = new Schedule("2022-2024.1,2,06-12.20,24-27 2-6 3-10:01-55:23.10-945");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 5, minute: 4, second: 23, millisecond: 934));
-            var expected = new DateTime(year: 2022, month: 1, day: 20,
-                hour: 3, minute: 1, second: 23, millisecond: 10);
-            Assert.Equal(expected, result);
-        }
-
-        [Fact]
-        public void T2()
-        {
-            var schedule = new Schedule("2021.1,2,04-12.20,24-27 3-10:01-55:23.10-945");
-            var result = schedule.NextEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 933));
-            var expected = new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 934);
-            Assert.Equal(expected, result);
-        }
-
-        [Fact]
-        public void T3()
-        {
-            var schedule = new Schedule("2021.1,2,04-12.20,24-27 2-6 3-10:01-55:23.10-945");
-            var result = schedule.NearestEvent(new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 932));
-            var expected = new DateTime(year: 2021, month: 2, day: 20,
-                hour: 3, minute: 4, second: 23, millisecond: 932);
-            Assert.Equal(expected, result);
-        }
-
-        [Fact]
         public void PrevEventMillisecondTest()
         {
             var schedule = new Schedule();
@@ -144,6 +111,21 @@ namespace TestScheduler
             var result = schedule.PrevEvent(new DateTime(year: 2021, month: 2, day: 20,
                 hour: 0, minute: 0, second: 0, millisecond: 1));
             var expected = new DateTime();
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void LastDayOfMonthTest()
+        {
+            var schedule = new Schedule("*.*.32 *:*:*");
+            var result = schedule.NextEvent(new DateTime(year: 2021, month: 2, day: 20));
+            var expected = new DateTime(year: 2021, month: 2, day: 28,
+                hour: 0, minute: 0, second: 0);
+            Assert.Equal(expected, result);
+
+            result = schedule.NextEvent(new DateTime(year: 2021, month: 4, day: 1));
+            expected = new DateTime(year: 2021, month: 4, day: 30,
+                hour: 0, minute: 0, second: 0);
             Assert.Equal(expected, result);
         }
     }

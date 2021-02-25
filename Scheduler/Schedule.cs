@@ -353,23 +353,46 @@ namespace Scheduler
             return datetime;
         }
 
+        /// <summary>
+		/// Возвращает предыдущий ближайший к заданному времени момент в расписании или
+		/// само заданное время, если оно есть в расписании.
+		/// </summary>
+		/// <param name="t1">Заданное время</param>
+		/// <returns>Ближайший момент времени в расписании</returns>
         public DateTime NearestPrevEvent(DateTime t1)
         {
             var datetime = FindPrev(t1, true);
             return datetime;
         }
 
+        /// <summary>
+		/// Возвращает следующий момент времени в расписании.
+		/// </summary>
+		/// <param name="t1">Время, от которого нужно отступить</param>
+		/// <returns>Следующий момент времени в расписании</returns>
         public DateTime NextEvent(DateTime t1)
         {
             var dateTime = FindNext(t1, false);
             return dateTime;
         }
+
+        /// <summary>
+		/// Возвращает предыдущий момент времени в расписании.
+		/// </summary>
+		/// <param name="t1">Время, от которого нужно отступить</param>
+		/// <returns>Предыдущий момент времени в расписании</returns>
         public DateTime PrevEvent(DateTime t1)
         {
             var datetime = FindPrev(t1, false);
             return datetime;
         }
 
+        /// <summary>
+        /// Возвращает следующий момент времени в расписании или указанное время.
+        /// </summary>
+        /// <param name="t1">Время, от которого нужно отступить</param>
+        /// <param name="equal">Возвращать заданное время, если оно есть в расписании</param>
+        /// <returns>Следующий момент времени в расписании</returns>
         private DateTime FindNext(DateTime t1, bool equal)
         {
             InitializeClosestDateEntities(t1);
@@ -430,6 +453,12 @@ namespace Scheduler
             return closestTime;
         }
 
+        /// <summary>
+        /// Возвращает предыдущий момент времени в расписании или указанное время.
+        /// </summary>
+        /// <param name="t1">Время, от которого нужно отступить</param>
+        /// <param name="equal">Возвращать заданное время, если оно есть в расписании</param>
+        /// <returns>Предыдущий момент времени в расписании</returns>
         private DateTime FindPrev(DateTime t1, bool equal)
         {
             InitializeClosestDateEntities(t1);
