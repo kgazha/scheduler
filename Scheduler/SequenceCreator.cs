@@ -1,6 +1,7 @@
 ﻿using Scheduler.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scheduler
 {
@@ -19,7 +20,8 @@ namespace Scheduler
                 }
                 if (item.Contains('-'))
                 {
-                    sequence.AddRange(GetSequenceFromRange(item, step));
+                    var valuesFromRange = GetSequenceFromRange(item, step);
+                    sequence.AddRange(valuesFromRange.Where(x => x >= minValue && x <= maxValue));
                 }
                 else if (item.Contains('*'))
                 {
