@@ -91,9 +91,51 @@ namespace Scheduler
             DateTime result = new DateTime();
             int year = Years.Aggregate((x, y) => Math.Abs(x - t1.Year) <= Math.Abs(y - t1.Year) ? x : y);
 
-            int month = Months.Aggregate((x, y) => Math.Abs(x - t1.Month) <= Math.Abs(y - t1.Month) ? x : y);
+            //int month = Months.Aggregate((x, y) => Math.Abs(x - t1.Month) <= Math.Abs(y - t1.Month) ? x : y);
+            //int _month = Months.Aggregate((x, y) => 
+            //Math.Abs((new DateTime(year: year, month: x, day: 0) - new DateTime(year: year, month: t1.Month, day: 0)).Days) 
+            //<= Math.Abs((new DateTime(year: year, month: y, day: 0) - new DateTime(year: year, month: t1.Month, day: 0)).Days) 
+            //? x : y);
+            int month = 0;
+            int closestMonth = 0;
+            var maxDiff = double.MaxValue;
+            double dateDiff;
+            foreach (var item in Months)
+            {
+                dateDiff = Math.Abs((new DateTime(year: year, month: item, day: 1) - new DateTime(year: t1.Year, month: t1.Month, day: 1)).Days);
+                if (dateDiff < maxDiff)
+                {
+                    maxDiff = dateDiff;
+                    closestMonth = item;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            month = closestMonth;
+
+
             Days = sequence.GenerateSequence(parser.Day, 1, DateTime.DaysInMonth(year, month));
-            int day = Days.Aggregate((x, y) => Math.Abs(x - t1.Day) <= Math.Abs(y - t1.Day) ? x : y);
+            int day = 0; // Days.Aggregate((x, y) => Math.Abs(x - t1.Day) <= Math.Abs(y - t1.Day) ? x : y);
+            int closestDay = 0;
+            maxDiff = double.MaxValue;
+            foreach (var item in Days)
+            {
+                dateDiff = Math.Abs((new DateTime(year, month, item)
+                    - new DateTime(t1.Year, t1.Month, t1.Day)).Days);
+                if (dateDiff < maxDiff)
+                {
+                    maxDiff = dateDiff;
+                    closestDay = item;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            day = closestDay;
+
             int hour = 0;
             int minute = 0;
             int second = 0;
@@ -101,10 +143,84 @@ namespace Scheduler
 
             if (Hours.Count != 0)
             {
-                hour = Hours.Aggregate((x, y) => Math.Abs(x - t1.Hour) <= Math.Abs(y - t1.Hour) ? x : y);
-                minute = Minutes.Aggregate((x, y) => Math.Abs(x - t1.Minute) <= Math.Abs(y - t1.Minute) ? x : y);
-                second = Seconds.Aggregate((x, y) => Math.Abs(x - t1.Second) <= Math.Abs(y - t1.Second) ? x : y);
-                millisecond = Milliseconds.Aggregate((x, y) => Math.Abs(x - t1.Millisecond) <= Math.Abs(y - t1.Millisecond) ? x : y);
+                //hour = Hours.Aggregate((x, y) => Math.Abs(x - t1.Hour) <= Math.Abs(y - t1.Hour) ? x : y);
+                //int hour = 0;
+                int closestHour = 0;
+                maxDiff = double.MaxValue;
+                foreach (var item in Hours)
+                {
+                    dateDiff = Math.Abs((new DateTime(year: year, month: month, day: day, hour: item, minute: 1, second: 1)
+                        - new DateTime(year: t1.Year, month: t1.Month, day: t1.Day, hour: t1.Hour, minute: 1, second: 1)).Ticks);
+                    if (dateDiff < maxDiff)
+                    {
+                        maxDiff = dateDiff;
+                        closestHour = item;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                hour = closestHour;
+                //minute = Minutes.Aggregate((x, y) => Math.Abs(x - t1.Minute) <= Math.Abs(y - t1.Minute) ? x : y);
+                int closestMinute = 0;
+                maxDiff = double.MaxValue;
+                foreach (var item in Minutes)
+                {
+                    dateDiff = Math.Abs((new DateTime(year, month, day, hour, item, 1)
+                        - new DateTime(t1.Year, t1.Month, t1.Day, t1.Hour, t1.Minute, 1)).Ticks);
+                    if (dateDiff < maxDiff)
+                    {
+                        maxDiff = dateDiff;
+                        closestMinute = item;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                minute = closestMinute;
+
+                //second = Seconds.Aggregate((x, y) => Math.Abs(x - t1.Second) <= Math.Abs(y - t1.Second) ? x : y);
+                int closestSecond = 0;
+                maxDiff = double.MaxValue;
+                foreach (var item in Seconds)
+                {
+                    dateDiff = Math.Abs((new DateTime(year: year, month: month, day: day, hour: hour, minute: minute, second: item)
+                        - new DateTime(year: t1.Year, month: t1.Month, day: t1.Day,
+                        hour: t1.Hour, minute: t1.Minute, second: t1.Second)).Ticks);
+                    if (dateDiff < maxDiff)
+                    {
+                        maxDiff = dateDiff;
+                        closestSecond = item;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                second = closestSecond;
+
+                //millisecond = Milliseconds.Aggregate((x, y) => Math.Abs(x - t1.Millisecond) <= Math.Abs(y - t1.Millisecond) ? x : y);
+                int closestMillisecond = 0;
+                maxDiff = double.MaxValue;
+                foreach (var item in Milliseconds)
+                {
+                    dateDiff = Math.Abs((new DateTime(year: year, month: month, day: day,
+                        hour: hour, minute: minute, second: second, millisecond: item)
+                        - new DateTime(year: t1.Year, month: t1.Month, day: t1.Day,
+                        hour: t1.Hour, minute: t1.Minute, second: t1.Second, millisecond: t1.Millisecond)).Ticks);
+                    if (dateDiff < maxDiff)
+                    {
+                        maxDiff = dateDiff;
+                        closestMillisecond = item;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                millisecond = closestMillisecond;
             }
 
             var datetime = new DateTime(year: year, month: month, day: day,
@@ -116,7 +232,9 @@ namespace Scheduler
             {
                 bool added = false;
                 var diff = Math.Abs((t1 - datetime).TotalMilliseconds);
-                while (diff < closestDiff || !added)
+                bool closestFound = false;
+                DateTime closestTime = datetime;
+                while ((diff < closestDiff || !added) && !closestFound)
                 {
                     AddNext(Milliseconds, ref millisecond, ref added);
                     AddNext(Seconds, ref second, ref added);
@@ -134,10 +252,29 @@ namespace Scheduler
                                     hour: hour, minute: minute, second: second,
                                     millisecond: millisecond);
                     diff = Math.Abs((t1 - datetime).TotalMilliseconds);
-                    if (diff < closestDiff)
+                    //if (diff < closestDiff)
+                    //{
+                    //    closestDiff = diff;
+                    //}
+                    if (closestDiff == 0)
                     {
                         closestDiff = diff;
                     }
+                    if (diff <= closestDiff && diff != 0)
+                    {
+                        closestDiff = diff;
+                        closestTime = datetime;
+                        added = false;
+                    }
+                    else
+                    {
+                        closestFound = true;
+                        datetime = closestTime;
+                    }
+                }
+                if (datetime < t1)
+                {
+                    datetime = new DateTime();
                 }
             }
 
@@ -147,7 +284,7 @@ namespace Scheduler
                 bool added = false;
                 bool closestFound = false;
                 DateTime closestTime = datetime;
-                while (!closestFound || !added)
+                while ((!closestFound || !added) && datetime < t1)
                 {
                     AddNext(Milliseconds, ref millisecond, ref added);
                     AddNext(Seconds, ref second, ref added);
@@ -177,6 +314,10 @@ namespace Scheduler
                         datetime = closestTime;
                     }
                 }
+                if (datetime < t1)
+                {
+                    datetime = new DateTime();
+                }
             }
 
             if (findEqual && !findNext)
@@ -184,14 +325,20 @@ namespace Scheduler
                 var diff = Math.Abs((t1 - datetime).TotalMilliseconds);
                 bool subtracted = false;
                 bool closestFound = false;
+                var changeDay = true;
                 DateTime closestTime = datetime;
-                while (!closestFound || !subtracted)
+                while (!closestFound && (!subtracted || !changeDay))
                 {
                     SubtractNext(Milliseconds, ref millisecond, ref subtracted);
                     SubtractNext(Seconds, ref second, ref subtracted);
                     SubtractNext(Minutes, ref minute, ref subtracted);
                     SubtractNext(Hours, ref hour, ref subtracted);
-                    SubtractNext(Days, ref day, ref subtracted);
+                    //SubtractNext(Days, ref day, ref subtracted);
+                    if (!changeDay & subtracted)
+                    {
+                        SubtractNext(Days, ref day, ref changeDay);
+                        subtracted = changeDay;
+                    }
                     SubtractNext(Months, ref month, ref subtracted);
                     SubtractNext(Years, ref year, ref subtracted);
                     if (subtracted)
@@ -214,55 +361,6 @@ namespace Scheduler
                         closestFound = true;
                         datetime = closestTime;
                     }
-                }
-            }
-
-            if (!findEqual && !findNext)
-            {
-                closestDiff = Math.Abs((t1 - datetime).TotalMilliseconds);
-                var diff = Math.Abs((t1 - datetime).TotalMilliseconds);
-                bool subtracted = false;
-                var changeDay = true;
-                bool closestFound = false;
-                DateTime closestTime = datetime;
-                while (/*!closestFound || */!subtracted || !changeDay)
-                {
-                    SubtractNext(Milliseconds, ref millisecond, ref subtracted);
-                    SubtractNext(Seconds, ref second, ref subtracted);
-                    SubtractNext(Minutes, ref minute, ref subtracted);
-                    SubtractNext(Hours, ref hour, ref subtracted);
-                    SubtractNext(Days, ref day, ref subtracted);
-                    if (!changeDay & subtracted)
-                    {
-                        SubtractNext(Days, ref day, ref changeDay);
-                        subtracted = changeDay;
-                    }
-                    SubtractNext(Months, ref month, ref subtracted);
-                    SubtractNext(Years, ref year, ref subtracted);
-                    if (subtracted)
-                    {
-                        Days = sequence.GenerateSequence(parser.Day, 1, DateTime.DaysInMonth(year, month));
-                    }
-
-                    datetime = new DateTime(year: year, month: month, day: day,
-                                    hour: hour, minute: minute, second: second,
-                                    millisecond: millisecond);
-                    diff = Math.Abs((t1 - datetime).TotalMilliseconds);
-                    //if (diff < closestDiff)
-                    //{
-                    //    closestDiff = diff;
-                    //    closestTime = datetime;
-                    //    subtracted = false;
-                    //}
-                    //else
-                    //{
-                    //    closestFound = true;
-                    //    datetime = closestTime;
-                    //}
-                    //if (diff < closestDiff)
-                    //{
-                    //    closestDiff = diff;
-                    //}
                     if (DaysOfWeek.Count != 0)
                     {
                         if (DaysOfWeek.Contains((int)datetime.DayOfWeek))
@@ -275,10 +373,80 @@ namespace Scheduler
                         }
                     }
                 }
+                if (datetime > t1)
+                {
+                    datetime = new DateTime();
+                }
+            }
+
+            if (!findEqual && !findNext)
+            {
+                closestDiff = Math.Abs((t1 - datetime).TotalMilliseconds);
+                var diff = Math.Abs((t1 - datetime).TotalMilliseconds);
+                bool subtracted = false;
+                bool closestFound = false;
+                var relevantDay = true;
+                DateTime closestTime = datetime;
+                while (!closestFound && (!subtracted || !relevantDay))
+                {
+                    SubtractNext(Milliseconds, ref millisecond, ref subtracted);
+                    SubtractNext(Seconds, ref second, ref subtracted);
+                    SubtractNext(Minutes, ref minute, ref subtracted);
+                    SubtractNext(Hours, ref hour, ref subtracted);
+                    SubtractNext(Days, ref day, ref subtracted);
+                    if (!relevantDay & subtracted)
+                    {
+                        SubtractNext(Days, ref day, ref relevantDay);
+                        subtracted = relevantDay;
+                    }
+                    SubtractNext(Months, ref month, ref subtracted);
+                    SubtractNext(Years, ref year, ref subtracted);
+                    if (subtracted)
+                    {
+                        Days = sequence.GenerateSequence(parser.Day, 1, DateTime.DaysInMonth(year, month));
+                    }
+
+                    datetime = new DateTime(year: year, month: month, day: day,
+                                    hour: hour, minute: minute, second: second,
+                                    millisecond: millisecond);
+                    diff = Math.Abs((t1 - datetime).TotalMilliseconds);
+                    if (closestDiff == 0)
+                    {
+                        closestDiff = diff;
+                    }
+                    if (diff <= closestDiff && datetime < t1)
+                    {
+                        closestDiff = diff;
+                        closestTime = datetime;
+                        subtracted = false;
+                    }
+                    else
+                    {
+                        closestFound = true;
+                        datetime = closestTime;
+                    }
+                    if (DaysOfWeek.Count != 0 && closestFound)
+                    {
+                        if (DaysOfWeek.Contains((int)datetime.DayOfWeek))
+                        {
+                            relevantDay = true;
+                        }
+                        else
+                        {
+                            relevantDay = false;
+                            subtracted = true;
+                            closestFound = false;
+                        }
+                    }
+                }
+                if (datetime > t1)
+                {
+                    datetime = new DateTime();
+                }
             }
 
             result = datetime;
-            
+
 
             return result;
         }
